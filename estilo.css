@@ -9,7 +9,6 @@ body {
 	width: 320px;
 	height: auto;
 	overflow: hidden;
-	display: flex;
 }
 
 h1 {
