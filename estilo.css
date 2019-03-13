@@ -5,7 +5,6 @@ body {
 }
 
 .container {
-	position: relative;
 	width: 320px;
 	height: auto;
 	overflow: hidden;
