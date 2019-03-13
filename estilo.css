@@ -12,6 +12,8 @@ body {
 	height: auto;
 	overflow: hidden;
 	text-align:left;
+	aling-items:center;
+	justify-content: center;
 }
 
 h1 {
