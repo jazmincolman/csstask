@@ -6,8 +6,7 @@ body {
 }
 
 .container {
-	position: absolute;
-	width: 320px;
+	width: 50%;
 	height: auto;
 	overflow: hidden;
 	padding: 2%;
