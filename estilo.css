@@ -2,6 +2,7 @@
 body {
 	font-family: 'Overpass', sans-serif;
     	background: #ECDAD6;
+	margin: 0;
 }
 
 .container {
@@ -9,6 +10,7 @@ body {
 	width: 320px;
 	height: auto;
 	overflow: hidden;
+	padding: 2%;
 }
 
 h1 {
