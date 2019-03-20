@@ -37,6 +37,7 @@
 	curl --location --request GET "https://task-backend-fpuna.herokuapp.com/tasks"
 		--header "Accept: application/json" 
 		--data '{"description": "Terminar la tarea"}'
+	ajax.sendAjaxRequest("GET",params, API_URL,  MediaFormat.JSON, (value) => f1(value), (code) => f2(code, 'No se pueden mostrar las tareas.'), asynchronous);
 		
 		//XMLHttpRequest xhr = new XMLHttpRequest();
 		//xhr.onreadystatechange = () => { console.log(xhr.readyState); console.log(xhr.status); console.log(xhr.responseText); };
