@@ -36,9 +36,7 @@
         //  - La llamada debe ser asíncrona.
 	curl --location --request GET "https://task-backend-fpuna.herokuapp.com/tasks"
 		--header "Accept: application/json" 
-		--data '{
-			"description": "Terminar la tarea"
-		}'
+		--data '{"description": "Terminar la tarea"}'
 		
 		//XMLHttpRequest xhr = new XMLHttpRequest();
 		//xhr.onreadystatechange = () => { console.log(xhr.readyState); console.log(xhr.status); console.log(xhr.responseText); };
