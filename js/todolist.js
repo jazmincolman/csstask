@@ -39,7 +39,7 @@
 			--header "Accept: application/json" \
 			--data {
 			\"description\":\"Terminar la tarea\"
-		}
+		};
 		
 		XMLHttpRequest xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = () => { console.log(xhr.readyState); console.log(xhr.status); console.log(xhr.responseText); };
