@@ -37,14 +37,17 @@
 	curl --location --request GET "https://task-backend-fpuna.herokuapp.com/tasks"
 		--header "Accept: application/json" 
 		--data '{"description": "Terminar la tarea"}'
-	ajax.sendAjaxRequest("GET",params, API_URL,  MediaFormat.JSON, (value) => f1(value), (code) => f2(code, 'No se pueden mostrar las tareas.'), asynchronous);
-		
-		//XMLHttpRequest xhr = new XMLHttpRequest();
-		//xhr.onreadystatechange = () => { console.log(xhr.readyState); console.log(xhr.status); console.log(xhr.responseText); };
-		//xhr.open('GET','https://task-backend-fpuna.herokuapp.com/tasks');
-		//hr.send();
 
-
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		// Typical action to be performed when the document is ready:
+			var response = xhttp.responseText;
+			console.log("ok"+response);
+		}
+	};
+	xhttp.open("GET", "https://task-backend-fpuna.herokuapp.com/tasks", true);
+	xhttp.send();
     };
 
     /**
