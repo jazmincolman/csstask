@@ -34,20 +34,31 @@
         //  - Como parámetro `callbackError` envía una función que llame al método `showError` enviando un mensaje de
         //    error
         //  - La llamada debe ser asíncrona.
-	curl --location --request GET "https://task-backend-fpuna.herokuapp.com/tasks"
-		--header "Accept: application/json" 
-		--data '{"description": "Terminar la tarea"}'
+		
+		//Se creó una función para cumplir con el ITEM 0
+		loadLista()
+	
+    };
+	
+	const loadLista = () => {
+      
+        let lstListas = document.getElementsByClassName('listView');
+        if(lstListas) {
+            for(var i = 0; i < lstListas.length; i++) {
+                const element = lstListas[i];
+                element.innerHTML = "";
+            }
+        }
 
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-		// Typical action to be performed when the document is ready:
-			var response = xhttp.responseText;
-			console.log("ok"+response);
-		}
-	};
-	xhttp.open("GET", "https://task-backend-fpuna.herokuapp.com/tasks", true);
-	xhttp.send();
+        var param = {}
+        //Se realiza la peticion GET 
+        Ajax.sendGetRequest(API_URL, param, MediaFormat.JSON, (valor) => loadTasks(valor), (error) => showError(error, 'No se pudo obtener la información requerida.'), true);
+    };
+
+    const processInfo = () => {
+        let limpiarnewTaskInput = document.getElementById("new-task");
+        limpiarnewTaskInput.value = "";
+        loadTasks();
     };
 
     /**
@@ -59,6 +70,20 @@
         // TODO ITEM 6 recuperar el elemento HTML con la clase `error-bar` y modificar el HTML interno de
         // manera a mostrar el mensaje de error.
         // El mensaje de error debe desaparacer luego de 3 segundos.
+		
+		//Se recupera el elemento HTML
+		var contentError = document.getElementsByClassName('error-bar');
+		var modal = document.getElementById('myModal');
+		modal.style.display = "block";
+		
+		contentError[0].innerText = text
+		//El mensaje de error debe desaparacer luego de 3 segundos
+		setTimeout(function() {
+            //borra el mensaje
+            contentError[0].innerText = "";
+            //oculta el modal
+            modal.style.display = "none";
+        }, 3000); //3000 milisegundos
     };
 
 
@@ -86,7 +111,7 @@
     const addTask = (e) => {
         let newTaskInput = document.getElementById("new-task");
         let content = newTaskInput.value;
-        if (content.length === 0) return false;
+        if (content.length === 0) return false;//si la longitud es 0 devuelve false y no hace nada
 
         e.preventDefault();
 
@@ -99,9 +124,10 @@
         //    error
         //  - La llamada debe ser asíncrona.
         //  - No te olvides de envíar el parámetro `task` para que se cree la tarea.
+		
+		//Se realizó la petición POST indicada en el ITEM 1
+		Ajax.sendPostRequest(API_URL, task, MediaFormat.JSON, (valor) => processInfo(), (error) => showError(error, 'Error al agregar la tarea'), true)
 
-
-        return false;
     };
 
     /**
@@ -116,8 +142,18 @@
      * Change the task to the completed or incomplete list (according to the status)
      */
     const addOnChangeEvent = (task) => {
+		//Obtiene el elemento del checkBox
         const checkBox = document.getElementById(`task-${task.id}`).querySelector('label > input');
         checkBox.onchange = (e) => {
+			
+			let aux = {
+                status: TASK_STATUS.DONE
+            }
+			
+			let id = e.currentTarget.id.split('_')[1];
+			
+			Ajax.sendPutRequest(API_URL+'/'+id, aux, MediaFormat.JSON, (valor) => loadLst(), 
+            (error) => showError(error, 'No fue posible actualizar la tarea.'), true);
 
             // TODO ITEM 3: leer el nuevo estado de la tarea (que solo puede ser TERMINADO(true) or PENDIENTE(false)) accediendo a la
             //  propiedad `e.target.checked`. Con éste nuevo dato, debes mostrar la tarea junto con las tareas de su
@@ -153,7 +189,9 @@
         deleteButton.onclick = (e) => removeTask(e);
 
         newItem.appendChild(label);
-        newItem.appendChild(editButton);
+		if (task.status === TASK_STATUS.PENDING) {
+			newItem.appendChild(editButton);
+		}
         newItem.appendChild(deleteButton);
 
         if (task.status  === TASK_STATUS.PENDING)
@@ -195,6 +233,19 @@
         buttonOK.setAttribute('id', `ok-button-${currentTask.id}`);
         buttonOK.onclick = () => {
             currentTask.description = document.getElementById(`task-edit-${currentTask.id}`).value;
+			
+			if(oldvalue.getAttribute('data-oldvalue') != currentTask.description) {
+          
+            //Petición PUT pasando el id del elemento
+            let auxx = {
+                description: currentTask.description
+            }
+				Ajax.sendPutRequest(API_URL+'/'+id, auxx, MediaFormat.JSON, (valor) => loadLst(), 
+				(error) => showError(error, 'No fue posible actualizar la tarea.'), true);
+			
+			} else {
+                revertHTMLChangeOnEdit(currentTask)
+            }
 
             // TODO ITEM 2: llamar a la API con el método PUT cuando la descripción de la tarea es
             //  modificada (`currentTask`).
@@ -259,6 +310,9 @@
      */
     const removeTask = (e) => {
         const id = e.target.dataset.id;
+		let param = {}
+         Ajax.sendDeleteRequest(API_URL+'/'+id, param, MediaFormat.JSON, (valor) => loadLst(), 
+            (error) => showError(error, 'No fue posible eliminar la tarea.'), true);
         // TODO ITEM 5: enviar una petición DELETE al API con el {id} de la tarea.
         //   - Como parámetro `callbackSuccess` enviar una función que llamé al método `removeTaskFromList`
         //     enviando el id de la tarea.
