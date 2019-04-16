@@ -314,6 +314,7 @@
      */
     const removeTaskFromList = (id) => {
         // TODO ITEM 4: remover del DOM HTML el elemento con id `task-${id}`
+	 $(`#task-${id}`).remove();
     };
 
     /**
