@@ -48,20 +48,31 @@
         // TODO ITEM 6 recuperar el elemento HTML con la clase `error-bar` y modificar el HTML interno de
         // manera a mostrar el mensaje de error.
         // El mensaje de error debe desaparacer luego de 3 segundos.
+	// El error debe mostrarse solo por 5 segundos, luego de ésto, debe desaparecer. Agregado para esta tarea
 		
 		//Se recupera el elemento HTML
-		var contentError = document.getElementsByClassName('error-bar');
-		var modal = document.getElementById('myModal');
-		modal.style.display = "block";
+		//var contentError = document.getElementsByClassName('error-bar');
+		//var modal = document.getElementById('myModal');
+		//modal.style.display = "block";
 		
-		contentError[0].innerText = text
+		//contentError[0].innerText = text
 		//El mensaje de error debe desaparacer luego de 3 segundos
-		setTimeout(function() {
+		//setTimeout(function() {
             //borra el mensaje
-            contentError[0].innerText = "";
+            //contentError[0].innerText = "";
             //oculta el modal
-            modal.style.display = "none";
-        }, 3000); //3000 milisegundos
+            //modal.style.display = "none";
+        //}, 3000); //3000 milisegundos
+	    console.log("showError");
+	    
+	    let errorBar = document.getElementsByClassName('error-bar')[0];
+	    errorBar.innerHTML = `${text}. Codigo error: ${code}`;
+	    errorBar.classList.remove('hide-bar');
+	    errorBar.classList.add('show-bar');
+	    setTimeout(() => {
+		    errorBar.classList.remove('show-bar');
+		    errorBar.classList.add('hide-bar');
+	    },5000);
     };
 
 
