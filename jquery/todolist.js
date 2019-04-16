@@ -35,7 +35,7 @@
         //    error
         //  - La llamada debe ser asíncrona.
 	//Ajax.sendGetRequest(API_URL, {}, MediaFormat.JSON, loadTasks, (text) => showError(1, text), true);	
-	$.get(`${API_URL}`, loadTasks);
+	$.get('${API_URL}', loadTasks);
 	//setInterval(function(){ alert("Hello"); }, 3000);
     };
 
