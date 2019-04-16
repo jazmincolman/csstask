@@ -202,9 +202,7 @@
         deleteButton.onclick = (e) => removeTask(e);
 
         newItem.appendChild(label);
-		if (task.status === TASK_STATUS.PENDING) {
-			newItem.appendChild(editButton);
-		}
+        newItem.appendChild(editButton);
         newItem.appendChild(deleteButton);
 
         if (task.status  === TASK_STATUS.PENDING)
@@ -214,6 +212,7 @@
 
         addOnChangeEvent(task);
     };
+
 
     /**
      * This method modifies the DOM HTML to display a form that allow the user to change the
