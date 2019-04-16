@@ -1,8 +1,8 @@
 /**
  *
  *
- * @author carpincho
- * @since 04/03/19.
+ * @author carpincho/Victoria/Liza
+ * @since 16/04/19.
  * @version 1.0
  */
 (() => {
@@ -34,31 +34,9 @@
         //  - Como parámetro `callbackError` envía una función que llame al método `showError` enviando un mensaje de
         //    error
         //  - La llamada debe ser asíncrona.
-		
-		//Se creó una función para cumplir con el ITEM 0
-		loadLista()
-	
-    };
-	
-	const loadLista = () => {
-      
-        let lstListas = document.getElementsByClassName('listView');
-        if(lstListas) {
-            for(var i = 0; i < lstListas.length; i++) {
-                const element = lstListas[i];
-                element.innerHTML = "";
-            }
-        }
-
-        var param = {}
-        //Se realiza la peticion GET 
-        Ajax.sendGetRequest(API_URL, param, MediaFormat.JSON, (valor) => loadTasks(valor), (error) => showError(error, 'No se pudo obtener la información requerida.'), true);
-    };
-
-    const processInfo = () => {
-        let limpiarnewTaskInput = document.getElementById("new-task");
-        limpiarnewTaskInput.value = "";
-        loadTasks();
+	//Ajax.sendGetRequest(API_URL, {}, MediaFormat.JSON, loadTasks, (text) => showError(1, text), true);	
+	$.get('${API_URL}', loadTasks);
+	//setInterval(function(){ alert("Hello"); }, 3000);
     };
 
     /**
@@ -92,15 +70,16 @@
      *
      * @param array the string coming on the body of the API response
      */
-    const loadTasks = (array) => {
-
-        let tasks = JSON.parse(array);
+    const loadTasks = (tasks) => {
+        //console.log(tasks);
+        //let tasks = JSON.parse(array);
         for (let i in tasks) {
             if (tasks.hasOwnProperty(i)) {
                 addTaskToList(tasks[i]);
             }
         }
     };
+
 
     /**
      * Send the request to the API to create a new task
