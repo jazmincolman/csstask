@@ -323,14 +323,21 @@
      */
     const removeTask = (e) => {
         const id = e.target.dataset.id;
-		let param = {}
-         Ajax.sendDeleteRequest(API_URL+'/'+id, param, MediaFormat.JSON, (valor) => loadLst(), 
-            (error) => showError(error, 'No fue posible eliminar la tarea.'), true);
+		//let param = {}
+        // Ajax.sendDeleteRequest(API_URL+'/'+id, param, MediaFormat.JSON, (valor) => loadLst(), 
+        //    (error) => showError(error, 'No fue posible eliminar la tarea.'), true);
         // TODO ITEM 5: enviar una petición DELETE al API con el {id} de la tarea.
         //   - Como parámetro `callbackSuccess` enviar una función que llamé al método `removeTaskFromList`
         //     enviando el id de la tarea.
         //   - Como parámetro `callbackError` enviar una función que llame al método `showError` enviando
         //     un mensaje de error
         //   - La llamada debe ser asíncrona.
+	$.ajax({
+		url: `${API_URL}/${id}`,
+		type: 'DELETE',
+		datatype: 'json';
+		contentType: 'application/json',
+		success: removeTaskFromList(id)
+	});
     };
 })(jQuery);
