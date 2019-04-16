@@ -244,20 +244,7 @@
         buttonOK.innerText = 'OK';
         buttonOK.setAttribute('id', `ok-button-${currentTask.id}`);
         buttonOK.onclick = () => {
-            currentTask.description = document.getElementById(`task-edit-${currentTask.id}`).value;
-			
-			if(oldvalue.getAttribute('data-oldvalue') != currentTask.description) {
-          
-            //Petición PUT pasando el id del elemento
-            let auxx = {
-                description: currentTask.description
-            }
-				Ajax.sendPutRequest(API_URL+'/'+id, auxx, MediaFormat.JSON, (valor) => loadLst(), 
-				(error) => showError(error, 'No fue posible actualizar la tarea.'), true);
-			
-			} else {
-                revertHTMLChangeOnEdit(currentTask)
-            }
+        currentTask.description = document.getElementById(`task-edit-${currentTask.id}`).value;
 
             // TODO ITEM 2: llamar a la API con el método PUT cuando la descripción de la tarea es
             //  modificada (`currentTask`).
