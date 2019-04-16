@@ -95,7 +95,8 @@
         e.preventDefault();
 
         let task = new Task(content);
-
+	//let taskjson = JSON.stringify(task);
+        //let task = JSON.parse(content);
         // TODO ITEM 1: Llamar al API con el método POST para crear una nueva tarea.
         //  - Como parámetro `callbackSuccess` envía una función que llame al método `addTaskToList` enviando la
         //    variable `task` y limpia el valor del input#new-task.
@@ -104,9 +105,21 @@
         //  - La llamada debe ser asíncrona.
         //  - No te olvides de envíar el parámetro `task` para que se cree la tarea.
 		
-		//Se realizó la petición POST indicada en el ITEM 1
-		Ajax.sendPostRequest(API_URL, task, MediaFormat.JSON, (valor) => processInfo(), (error) => showError(error, 'Error al agregar la tarea'), true)
+	//Ajax.sendPostRequest(API_URL, task, MediaFormat.JSON, (Task) => addTaskToList(task), (code) => showError(code, 'La tarea no ha podido ser añadida.'), true, MediaFormat.JSON);
+        //console.log(task);
+        //$.post(`${API_URL}`,  (Task) => addTaskToList(task),taskjson,);
 
+        $.ajax({
+                url: API_URL,
+                type: 'POST',
+                data: JSON.stringify(task),
+                contentType:"application/json",
+                success: (Task) => addTaskToList(task)
+        });
+	    //$('#add').on('click', () => {$.post(API_URL, {"description":"wgom"}, 'application/json');});
+        //$.post(API_URL, JSON.stringify(task), (Task) => addTaskToList(task), "application/json");
+        //document.getElementById('new-task').value = '';
+        return false;
     };
 
     /**
