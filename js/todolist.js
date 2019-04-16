@@ -54,6 +54,12 @@
 		   loadTasks(valor);
 	   })
    };
+	
+   const procesar = () => {
+	   let limpiarnewTaskInput = document.getElementById("new-task");
+	   limpiarnewTaskInput.value = "";
+	   cargaLista();
+   };
 
     /**
      * This method displays an error on the page.
