@@ -138,22 +138,43 @@
         const checkBox = document.getElementById(`task-${task.id}`).querySelector('label > input');
         checkBox.onchange = (e) => {
 			
-			let aux = {
-                status: TASK_STATUS.DONE
-            }
-			
-			let id = e.currentTarget.id.split('_')[1];
-			
-			Ajax.sendPutRequest(API_URL+'/'+id, aux, MediaFormat.JSON, (valor) => loadLst(), 
-            (error) => showError(error, 'No fue posible actualizar la tarea.'), true);
-
-            // TODO ITEM 3: leer el nuevo estado de la tarea (que solo puede ser TERMINADO(true) or PENDIENTE(false)) accediendo a la
+	    // TODO ITEM 3: leer el nuevo estado de la tarea (que solo puede ser TERMINADO(true) or PENDIENTE(false)) accediendo a la
             //  propiedad `e.target.checked`. Con éste nuevo dato, debes mostrar la tarea junto con las tareas de su
             //  mismo estado (e.g. si la tarea estaba pendiente pero el usuario hace click en el checkbox, el estado de
             //  la tarea debe cambiar a terminada y debe ahora mostrarse con las otras tareas terminadas).
             // - Una forma de hacerlo es remover directamente el archivo con el id `task-${task.id}` del DOM HTML
             // y luego llamar a la función `addTaskToList` que re-creara la tarea con el nuevo estado en el lugar correcto.
             // - No te olvides de llamar al API (método PUT) para modificar el estado de la tarea en el servidor.
+            //*const id = e.target.dataset.id;
+
+            // if (e.target.checked) {
+
+            //     Ajax.sendPutRequest(`${API_URL}/${task.id}` , {status: TASK_STATUS.DONE}, MediaFormat.JSON, 
+            //         (CurrentTask) => addTaskToList(JSON.parse(CurrentTask)), 
+            //         (code) => showError(code, 'La tarea no ha podido ser modificada.'), true, MediaFormat.JSON);
+                
+            //      document.getElementById(`task-${task.id}`).remove();
+            // } 
+            // else {
+            //     Ajax.sendPutRequest(`${API_URL}/${task.id}` , {status: TASK_STATUS.PENDING}, MediaFormat.JSON, 
+            //         (CurrentTask) => addTaskToList(JSON.parse(CurrentTask)), 
+            //         (code) => showError(code, 'La tarea no ha podido ser modificada.'), true, MediaFormat.JSON);
+                
+            //      document.getElementById(`task-${task.id}`).remove();
+            // }
+            const newState = e.target.checked;
+
+            $.ajax({
+                url: `${API_URL}/${task.id}`,
+                type: 'PUT',
+                data: JSON.stringify({status: newState ? 'TERMINADO' : 'PENDIENTE'}),
+                contentType: "application/json",
+                success: function(task){
+                    $(`#task-${task.id}`).remove();
+                    addTaskToList(task);
+                }
+            });
+
         };
     };
 
