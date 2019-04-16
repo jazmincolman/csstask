@@ -254,6 +254,15 @@
             //    error
             //  - La llamada debe ser asíncrona.
             //  - No te olvides de envíar el parámetro para que se cree la tarea.
+
+            //Ajax.sendPutRequest(`${API_URL}/${currentTask.id}` , currentTask, MediaFormat.JSON, (currentTask) => revertHTMLChangeOnEdit(currentTask), (code) => showError(1, 'La tarea no ha podido ser modificada.'), true, MediaFormat.JSON);
+            $.ajax({
+                url: `${API_URL}/${currentTask.id}`,
+                type: 'PUT',
+                data: JSON.stringify({description: currentTask.description}),
+                contentType: "application/json",
+                success: (Task) => revertHTMLChangeOnEdit(currentTask)
+            });
         };
 
         let buttonCancel = document.createElement('button');
@@ -270,7 +279,6 @@
 
         inputText.focus();
     };
-
     /**
      * This method removes the form displayed to edit the task and show it as a task item.
      * @param currentTask the string coming from the API
