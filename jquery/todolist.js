@@ -5,7 +5,7 @@
  * @since 16/04/19.
  * @version 1.0
  */
-(() => {
+(($) => {
     'use strict';
 
     const API_URL = 'https://task-backend-fpuna.herokuapp.com/tasks';
@@ -332,4 +332,4 @@
         //     un mensaje de error
         //   - La llamada debe ser asíncrona.
     };
-})();
+})(jQuery);
