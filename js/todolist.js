@@ -41,6 +41,14 @@
     };
 	
    const cargaLista = () => {
+	   let lListas = document.getElementsByClassName('listView');
+	   if (lListas) {
+		   for (var i = 0; i < lListas.lenght; i++) {
+			   const element = lListas[i];
+			   element.innerHTML = "";
+		   }
+	   }
+	   
 	   var param = {}
 	   $.get(API_URL, function (valor) {
 		   loadTasks(valor);
