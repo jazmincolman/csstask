@@ -279,12 +279,16 @@
 
         inputText.focus();
     };
-    /**
+    
+     /**
      * This method removes the form displayed to edit the task and show it as a task item.
      * @param currentTask the string coming from the API
      */
     const revertHTMLChangeOnEdit = (currentTask) => {
-        let task = JSON.parse(currentTask);
+        //console.log(currentTask instanceof Task);
+        let task = currentTask instanceof Task ? currentTask : JSON.parse(currentTask);
+        //let task = JSON.parse(currentTask);
+        //let task = currentTask;
 
         let currentDOMTask = document.getElementById(`task-${task.id}`);
         currentDOMTask.querySelector('input[type=text]').remove();
@@ -302,6 +306,7 @@
         currentDOMTask.querySelector('.edit').style.visibility = 'visible';
         currentDOMTask.querySelector('.delete').style.visibility = 'visible';
     };
+
 
     /**
      * This methods removes the task item associated to the DOM of the page
